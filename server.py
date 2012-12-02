@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, request, render_template, jsonify, send_file
+from flask import Flask, request, render_template
 import os
-import os.path
+from os.path import exists
 
 # add environment variables using 'heroku config:add VARIABLE_NAME=variable_name'
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+PASSWORD = u'yoavram'
 FILENAME = "names.txt"
 
-if not os.path.exists(FILENAME):
+if not exists(FILENAME):
 	open(FILENAME, 'w').close()
 
 app = Flask(__name__)
@@ -15,12 +16,14 @@ app.config.from_object(__name__)
 if app.debug:
 	print " * Running in debug mode"
 
+
 def add_name(name):
 	name = name.strip()
-	f = open(FILENAME,'a')
+	f = open(FILENAME, 'a')
 	f.write(name.encode('utf-8'))
 	f.write('\n')
 	f.close()
+
 
 def get_names(file=False):
 	f = open(FILENAME)
@@ -50,7 +53,7 @@ def index():
 			name = request.form['name']
 			if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
 				return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
-			elif name == u'yoavram':
+			elif name == PASSWORD:
 				file_text = get_names(True)
 				return render_template("index.html", file_text=file_text, total=len(names))
 			else:
