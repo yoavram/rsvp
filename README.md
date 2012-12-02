@@ -14,10 +14,6 @@ The inviter, upon entering a password at the name prompt, will see a list of inv
 
 ## How to use
 
-The server runs on *Python*. 
-
-### Install
-
  *  Install *Python* 2.7.x
  *  Install [Flask](http://flask.pocoo.org/), usually by calling `pip install Flask`
  *  Clone this repository
