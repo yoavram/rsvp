@@ -16,6 +16,7 @@ if app.debug:
 	print " * Running in debug mode"
 
 def add_name(name):
+	name = name.strip()
 	f = open(FILENAME,'a')
 	f.write(name.encode('utf-8'))
 	f.write('\n')
