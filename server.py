@@ -31,7 +31,7 @@ def index():
 		return render_template("index.html", total=len(names))
 	else:
 		name = request.form['name']
-		if name == u'שם הסטודנט':
+		if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
 			return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
 		elif name == u'yoavram':
 			return send_file(FILENAME)
