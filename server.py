@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, render_template, jsonify, send_file
 import os
+import os.path
 
 # add environment variables using 'heroku config:add VARIABLE_NAME=variable_name'
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 FILENAME = "names.txt"
+
+if not os.path.exists(FILENAME):
+	open(FILENAME, 'w').close()
 
 app = Flask(__name__)
 app.config.from_object(__name__)  
