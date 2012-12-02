@@ -24,17 +24,8 @@
 	<div class="main" dir="rtl">
 	{% if name %}
 		<h3>שלום, {{ name }}, תודה שנרשמת!</h3>
-	{% elif names %}
-		סה"כ {{ total }}
-		<ul>			
-			{% for n in names %}
-				<li>
-					{{ name }}
-				</li>
-			{% endfor %}
-		</ul>
 	{% else %}
-		<form action="" method=post>										
+		<form action="" method=post>
 			<table>
 				<tbody>
 					<tr>
@@ -57,7 +48,16 @@
 		</form>	
 	{% endif %}
 	</div>
-
+	{% if file_text %}
+	<div class="file" dir="rtl">
+		<form action="" method=post>
+		<textarea name="file_text" cols="30" rows="15" id="file_text">{{ file_text }}
+		</textarea>
+		<br>
+		<input type="submit" value="שמור"/>
+	</form>
+	</div>
+	{% endif %}
 	<br><br>
 	<div class="colophon" dir="ltr">
 			Powered by <a href="http://python.org/" target="_blank">Python</a> & <a href="http://flask.pocoo.org/" target="_blank">Flask</a>.<br>

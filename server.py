@@ -22,12 +22,23 @@ def add_name(name):
 	f.write('\n')
 	f.close()
 
-def get_names():
+def get_names(file=False):
 	f = open(FILENAME)
-	names = f.readlines()
+	if file:
+		names = f.read()
+		names = names.decode('utf-8')
+	else:
+		names = f.readlines()
+		names = [n.decode('utf-8') for n in names if len(n.strip()) > 0]
 	f.close()
-	names = [n.decode('utf-8') for n in names]
 	return names
+
+
+def save_file(file_text):
+	f = open(FILENAME, 'w')
+	f.write(file_text.encode('utf-8'))
+	f.close()
+
 
 @app.route("/",  methods=['GET', 'POST'])
 def index():
@@ -35,14 +46,21 @@ def index():
 	if request.method == 'GET':
 		return render_template("index.html", total=len(names))
 	else:
-		name = request.form['name']
-		if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
-			return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
-		elif name == u'yoavram':
-			return send_file(FILENAME)
-		else:
-			add_name(name)
-			return render_template("index.html", name=name, total=len(names))
+		if 'name' in request.form:
+			name = request.form['name']
+			if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
+				return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
+			elif name == u'yoavram':
+				file_text = get_names(True)
+				return render_template("index.html", file_text=file_text, total=len(names))
+			else:
+				add_name(name)
+				return render_template("index.html", name=name, total=len(names))
+		elif 'file_text' in request.form:
+			file_text = request.form['file_text']
+			save_file(file_text)
+			file_text = get_names(True)
+			return render_template("index.html", file_text=file_text, total=len(names))
 
 
 if __name__ == '__main__':
