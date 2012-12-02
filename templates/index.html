@@ -1,0 +1,73 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he">
+<head>
+	<link rel="icon" type="image/ico" href="/static/favicon.ico">
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<title>RVSP</title>
+	<link href='/static/style.css' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	
+	<h3 dir="rtl">אשר הגעה</h3>
+	<div class="description" dir="rtl">
+		<p>
+			עד כה אישרו הגעתם {{ total }} סטודנטים.
+			<br>
+			אם בכוונתך להגיע לתרגול ההשלמה ב<em>יום חמישי 6.12</em>,
+			<br>
+			אנא רשומ/י את שמך בתיבת הטקסט ולחצ/י 'אישור'.
+			<br>
+		</p>
+	</div>
+	<div class="main" dir="rtl">
+	{% if name %}
+		<h3>שלום, {{ name }}, תודה שנרשמת!</h3>
+	{% elif names %}
+		סה"כ {{ total }}
+		<ul>			
+			{% for n in names %}
+				<li>
+					{{ name }}
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<form action="" method=post>										
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<input name="name" input="text" value="שם הסטודנט">
+							<input type="submit" value="אישור"/>
+						</td>
+						<td>
+						</td>
+					</tr>
+					{% if error %}
+					<tr><td>
+						<div class="error">
+							{{ error }}
+						</div>
+					</tr></td>
+					{% endif %}
+				</tbody>
+			</table>
+		</form>	
+	{% endif %}
+	</div>
+
+	<br><br>
+	<div class="colophon" dir="ltr">
+			Powered by <a href="http://python.org/" target="_blank">Python</a> & <a href="http://flask.pocoo.org/" target="_blank">Flask</a>.<br>
+			Web app hosted by for <em>free</em> by <a href="http://heroku.com/" target="_blank">Heroku</a>.
+			<br>
+			Code <em>freely</em> availabe on <a href="http://github.com/yoavram/rvsp/" target="_blank">github</a>.
+			<br>
+			<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+				<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" /></a>
+			<br>
+	</div>
+</body>
+</html>

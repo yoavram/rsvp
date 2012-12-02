@@ -1,0 +1,27 @@
+.defname {color: blue;}
+.definition {color: darkorange; font-weight:bold;}
+.keyword {color: darkorange;}
+.comment {color: crimson;}
+.string {color: forestgreen;}
+.builtin {color: purple;}
+.operator {color: brown;}
+.docstring {color: forestgreen; font-style:italic;}
+body {
+	margin-left: 40px;
+	font-family: 'Asap', sans-serif;
+}
+input {
+}
+.colophon {
+	unicode-bidi: embed;
+	direction:	ltr;
+	line-height: 150%;
+	font-size: 12px;
+}
+td {
+	vertical-align: top;
+}
+.error {
+	font-size: small;
+	color: red;
+}
