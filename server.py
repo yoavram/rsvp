@@ -116,7 +116,7 @@ def event(event):
 				return render_template("index.html", event=event, name=name, total=len(names))
 		elif 'editor' in request.form:
 			editor = request.form['editor']
-			save_editor(editor)
+			save_editor(editor, event)
 			file_text = "\n".join(names)
 			return render_template("editor.html", event=event, editor=editor, total=len(names))
 
