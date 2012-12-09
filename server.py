@@ -56,8 +56,8 @@ def index():
 	else:
 		if 'name' in request.form:
 			name = request.form['name']
-			if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
-				return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
+			if name in [u'John Doe', u'', '', u' ', ' '] :
+				return render_template("index.html", total=len(names), error=u"Please fill in your name")
 			elif name == PASSWORD:
 				file_text = "\n".join(names)
 				return render_template("index.html", file_text=file_text, total=len(names))

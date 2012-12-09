@@ -1,39 +1,51 @@
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
 	"http://www.w3.org/TR/html4/strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="he">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<link rel="icon" type="image/ico" href="/static/favicon.ico">
 	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 	<title>RVSP</title>
-	<link href='/static/style.css' rel='stylesheet' type='text/css'>
+	<!-- Le style -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="/static/style.css" rel="stylesheet">
+	<!--link rel="stylesheet" href="/static/jquery-ui.css" /-->
+	<link href="/static/bootstrap.min.css" rel="stylesheet">
+	<!--link href="/static/glyphicons.css" rel="stylesheet">
+	<style type="text/css">
+	[class^="icon-"] { background-image: url("/static/glyphicons-halflings.png"); } 
+	[class*="icon-white"] { background-image: url("/static/glyphicons-halflings-white.png"); } 
+	[class^="glyphicon-"] { background-image: url("/static/glyphicons.png"); } 
+	</style-->
+
+	<!-- Le JS -->
+	<!--script src="/static/jquery-1.8.3.js"></script-->
+	<!--script src="/static/jquery-ui.js"></script-->
+	<script type="text/javascript" src="/static/bootstrap.min.js"></script>	
 </head>
 <body>
-	
-	<h3 dir="rtl">אשר הגעה</h3>
-	<div class="description" dir="rtl">
+	<div class="row-fluid">
+	<div class="span10">
+	<h3>Répondez s'il vous plaît</h3>
+	<h4>Please fill in your name to respond to the invitation</h4>
+	<h5>So far, 
+			{% if total==0 %} no one {% elif total==1 %} one person {% else %} {{ total }} people {% endif %}
+			responded</h5>
+	<div class="description">
 		<p>
-			עד כה אישרו הגעתם {{ total }} סטודנטים.
-			<br>
-			אם בכוונתך להגיע לתרגול ההשלמה ב<em>יום חמישי 6.12</em>,
-			<br>
-			אנא רשומ/י את שמך בתיבת הטקסט ולחצ/י 'אישור'.
-			<br>
 		</p>
 	</div>
-	<div class="main" dir="rtl">
+	<div class="main">
 	{% if name %}
-		<h3>שלום, {{ name }}, תודה שנרשמת!</h3>
+		<h3>Hello, {{ name }}, thanks for responding!</h3>
 	{% else %}
 		<form action="" method=post>
 			<table>
 				<tbody>
 					<tr>
 						<td>
-							<input name="name" input="text" placeholder="שם הסטודנט">
-							<input type="submit" value="אישור"/>
-						</td>
-						<td>
+							<input name="name" input="text" placeholder="John Doe">
+							<input type="submit" value="Send"/>
 						</td>
 					</tr>
 					{% if error %}
@@ -49,15 +61,16 @@
 	{% endif %}
 	</div>
 	{% if file_text %}
-	<div class="file" dir="rtl">
+	<div class="file">
 		<form action="" method=post>
 		<textarea name="file_text" cols="30" rows="15" id="file_text">{{ file_text }}
 		</textarea>
 		<br>
-		<input type="submit" value="שמור"/>
+		<input type="submit" value="Save"/>
 	</form>
 	</div>
 	{% endif %}
+</div></div>
 	<br><br>
 	<div class="colophon" dir="ltr">
 			Powered by <a href="http://python.org/" target="_blank">Python</a> & <a href="http://flask.pocoo.org/" target="_blank">Flask</a>.<br>
