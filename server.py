@@ -20,18 +20,22 @@ def datetime_from_string(string):
 def string_from_datetime(datetime_obj):
 	return datetime_obj.strftime(DATE_FORMAT)
 
+### config params ########
 
 # add environment variables using 'heroku config:add VARIABLE_NAME=variable_name'
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 MONGO_URI = os.environ.get('MONGOLAB_URI')
-WEBSITE_URL = 'http://localhost:5000/'
-PASSWORD = u'yoavram'
+WEBSITE_URL = os.environ.get('WEBSITE_URL', 'http://localhost:5000/')
+
+### init app ##########
 
 app = Flask(__name__)
 app.config.from_object(__name__)  
 app.config.from_pyfile('config.py', True)
 if app.debug:
 	print " * Running in debug mode"
+
+### init database ##########
 
 app.config['MONGO_DBNAME'] = db_name_from_uri(app.config['MONGO_URI'])
 mongo = PyMongo(app)
@@ -40,7 +44,12 @@ if mongo:
 else:
 	raise Exception("No Mongo Connection")
 
+### template filters ######
+
 app.jinja_env.filters['format_date'] = string_from_datetime
+
+
+### helper functions #######
 
 def process_form(form):
 	date = form['date']
@@ -72,6 +81,9 @@ def save_file(editor, event):
 	for n in editor.split('\n'):
 		n = n.strip()
 		add_name(n)
+
+
+### handler functions #########
 
 @app.route("/",  methods=['GET', 'POST'])
 def create():
@@ -108,8 +120,8 @@ def event(event):
 			file_text = "\n".join(names)
 			return render_template("editor.html", event=event, editor=editor, total=len(names))
 
+### MAIN ###########
 
 if __name__ == '__main__':
-	# Bind to PORT if defined, otherwise default to 5000.
 	port = int(os.environ.get('PORT', 5000))
 	app.run(host='0.0.0.0', port=port, debug=app.debug)
