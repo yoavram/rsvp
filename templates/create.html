@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+$(function() {
+$("[id^=datepicker]").datepicker({ dateFormat: "dd MM, yy" });
+});
+</script>
+{% endblock head %}
+
+{% block body %}
+<div class="row-fluid">
+	<div class="span10">
+	{% if not form %}
+		<h4>Create a new event</h4>
+		<h5>Please fill in the required information</h5>
+
+		<form class="form-horizontal" action="/" method="post">
+			<div class="control-group">
+			    <label class="control-label" for="event">Event Name*</label>
+			    <div class="controls">
+			      <input type="text" id="event" name="event" placeholder="What's the event name?" required >
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="email">Email</label>
+			    <div class="controls">
+			      <input type="text" id="email" name="email" placeholder="What's your email?">
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="password">Password*</label>
+			    <div class="controls">
+			      <input type="password" name="password" id="password" placeholder="What's the password?" required>
+			    </div>
+			</div>
+			<div class="control-group">
+			    <label class="control-label" for="location">Location</label>
+			    <div class="controls">
+			      <input type="text" name="location" id="location" placeholder="Where is the event?">
+			    </div>
+			</div>
+		  	<div class="control-group">
+				<label class="control-label" for="datepicker">Date</label>
+				<div class="controls">
+					<input type="text" id="datepicker" name="date" />
+					<input type="submit" value="Submit"/>
+				</div>
+			</div>  
+			<span class="help-block">* required field</span>
+		</form>
+	{% else %}
+		<h4>You created a new event!</h4>
+		The event RSVP is online at the address <a href="{{ form.url }}">{{ form.url }}</a>
+		<br>
+		For results of the RSVP follow the link and fill in your password at the <b>name</b> field.
+		<br>
+		{% if form.email %}
+		An email will be sent to <em>{{ form.email }}<em> with the RSVP link,
+		as well as a link for deleting the RSVP.
+		{% endif %}
+		{% if form.date %}
+		The event will be deleted from our system one week after the date you supplied,
+		together with your personal details.
+		{% endif %}
+		<h5>Event details:</h5>
+		{% for k,v in form.items() if v %}
+			<b>{{k}}</b> {{v}}
+			<br>
+		{% endfor %}
+	{% endif %}
+	
+	</div></div>
+{% endblock body %}

@@ -3,8 +3,9 @@
 {% block body %}
 <div class="row-fluid">
 	<div class="span10">
+		<h3>Event - <em>{{ event }}</em></h3>
 		<h4>Please fill in your name to respond to the invitation</h4>
-		<h5>So far, 
+		<h5>So far 
 			{% if total==0 %} no one {% elif total==1 %} one person {% else %} {{ total }} people {% endif %}
 			responded</h5>
 			<div class="description">
@@ -17,11 +18,11 @@
 				{% else %}
 
 				<form class="form-inline" action="" method=post>
-				<p>		  
+				<!--p>		  
 					<label class="checkbox">
 						<input type="checkbox" name="accept" value="true" checked> Accept invitation
 					</label>
-				</p>
+				</p-->
 				<p>
 					<input type="text" class="input" name="name" placeholder="Your Name...">
 					<button type="submit" class="btn">Send</button>
@@ -35,10 +36,10 @@
 
 			{% endif %}
 		</div>
-		{% if file_text %}
-		<div class="file">
+		{% if editor %}
+		<div class="editor">
 			<form action="" method=post>
-				<textarea name="file_text" cols="30" rows="15" id="file_text">{{ file_text }}
+				<textarea name="editor" cols="30" rows="15" id="editor">{{ editor }}
 				</textarea>
 				<br>
 				<input type="submit" value="Save"/>

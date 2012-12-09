@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="row-fluid">
+	<div class="span10">
+		<h3>{{ event }}</h3>
+		<h4>Add or remove names using the editor</h4>
+		<h5>So far 
+			{% if total==0 %} no one {% elif total==1 %} one person {% else %} {{ total }} people {% endif %}
+			responded</h5>
+			<div class="description">
+				<p>
+				</p>
+			</div>
+				
+		<div class="editor">
+			<form action="" method=post>
+				<textarea name="editor" cols="30" rows="15" id="editor">{{ editor }}
+				</textarea>
+				<br>
+				<input type="submit" value="Save"/>
+			</form>
+		</div>
+	</div></div>
+{% endblock body %}
