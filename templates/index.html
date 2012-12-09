@@ -24,9 +24,22 @@
 	<script type="text/javascript" src="/static/bootstrap.min.js"></script>	
 </head>
 <body>
+	<div class="navbar">
+	<div class="navbar-inner">
+	<div class="container">
+	<a class="brand" href="#">Répondez s'il vous plaît</a>
+	<div class="nav-collapse pull-left">
+		<!--ul class="nav">
+		<li class="active"><a href="#">תל-אביב/חיפה</a></li>
+		<li><a href="#">ירושלים/באר-שבע</a></li>
+		<li><a href="#">תל-חי/נהריה</a></li>
+		</ul-->
+	</div><!--/.nav-collapse -->
+	</div><!--/.container -->
+	</div><!--/.navbar-inner -->
+	</div><!--/.navbar -->
 	<div class="row-fluid">
 	<div class="span10">
-	<h3>Répondez s'il vous plaît</h3>
 	<h4>Please fill in your name to respond to the invitation</h4>
 	<h5>So far, 
 			{% if total==0 %} no one {% elif total==1 %} one person {% else %} {{ total }} people {% endif %}
