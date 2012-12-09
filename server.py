@@ -76,11 +76,11 @@ def get_names(event):
 	return names
 
 
-def save_file(editor, event):
+def save_editor(editor, event):
 	mongo.db[event].drop()
 	for n in editor.split('\n'):
 		n = n.strip()
-		add_name(n)
+		add_name(n, event)
 
 
 ### handler functions #########
@@ -116,7 +116,7 @@ def event(event):
 				return render_template("index.html", event=event, name=name, total=len(names))
 		elif 'editor' in request.form:
 			editor = request.form['editor']
-			save_file(editor)
+			save_editor(editor)
 			file_text = "\n".join(names)
 			return render_template("editor.html", event=event, editor=editor, total=len(names))
 
