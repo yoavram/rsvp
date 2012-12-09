@@ -1,47 +1,52 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, request, render_template
+from flask.ext.pymongo import PyMongo, ASCENDING 
 import os
 from os.path import exists
+from datetime import datetime
+
+def db_name_from_uri(full_uri):
+	ind = full_uri[::-1].find('/')
+	return full_uri[-ind:]
 
 # add environment variables using 'heroku config:add VARIABLE_NAME=variable_name'
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+MONGO_URI = os.environ.get('MONGOLAB_URI')
 PASSWORD = u'yoavram'
-FILENAME = "names.txt"
-
-if not exists(FILENAME):
-	open(FILENAME, 'w').close()
 
 app = Flask(__name__)
 app.config.from_object(__name__)  
+app.config.from_pyfile('config.py', True)
 if app.debug:
 	print " * Running in debug mode"
 
+app.config['MONGO_DBNAME'] = db_name_from_uri(app.config['MONGO_URI'])
+mongo = PyMongo(app)
+if mongo:
+	print " * Connection to database established"
+else:
+	raise Exception("No Mongo Connection")
+
 
 def add_name(name):
-	name = name.strip()
-	f = open(FILENAME, 'a')
-	f.write(name.encode('utf-8'))
-	f.write('\n')
-	f.close()
+	time = datetime.now()
+	d = {'time':time, 'name':name}
+	oid = mongo.db.general.insert(d)
+	print "Added object to database:", oid
 
 
-def get_names(file=False):
-	f = open(FILENAME)
-	if file:
-		names = f.read()
-		names = names.decode('utf-8')
-	else:
-		names = f.readlines()
-		names = [n.decode('utf-8') for n in names if len(n.strip()) > 0]
-	f.close()
+def get_names():
+	cur = mongo.db.general.find(sort=[('time', ASCENDING)])
+	names = [d['name'].strip() for d in cur]
+	names = [n for n in names if len(n) > 0]
 	return names
 
 
 def save_file(file_text):
-	f = open(FILENAME, 'w')
-	f.write(file_text.encode('utf-8'))
-	f.close()
-
+	mongo.db.general.drop()
+	for n in file_text.split('\n'):
+		n = n.strip()
+		add_name(n)
 
 @app.route("/",  methods=['GET', 'POST'])
 def index():
@@ -54,7 +59,7 @@ def index():
 			if name in [u'שם הסטודנט', u'', '', u' ', ' '] :
 				return render_template("index.html", total=len(names), error=u"נא מלא/י את השם בתיבת הטקסט")
 			elif name == PASSWORD:
-				file_text = get_names(True)
+				file_text = "\n".join(names)
 				return render_template("index.html", file_text=file_text, total=len(names))
 			else:
 				add_name(name)
@@ -62,7 +67,7 @@ def index():
 		elif 'file_text' in request.form:
 			file_text = request.form['file_text']
 			save_file(file_text)
-			file_text = get_names(True)
+			file_text = "\n".join(names)
 			return render_template("index.html", file_text=file_text, total=len(names))
 
 

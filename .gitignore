@@ -37,5 +37,4 @@ nosetests.xml
 # virtualenv
 venv
 
-# output
-names.txt
+config.py
