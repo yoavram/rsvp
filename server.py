@@ -56,7 +56,7 @@ def index():
 	else:
 		if 'name' in request.form:
 			name = request.form['name']
-			if name in [u'John Doe', u'', '', u' ', ' '] :
+			if name in [u'John Doe', u'', u'', u' ', u' ', u'Your Name...'] :
 				return render_template("index.html", total=len(names), error=u"Please fill in your name")
 			elif name == PASSWORD:
 				file_text = "\n".join(names)
